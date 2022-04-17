@@ -1,4 +1,5 @@
-﻿using NLayer.Core.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using NLayer.Core.Models;
 using NLayer.Core.Repositories;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,9 @@ namespace NLayer.Repository.Repositories
         {
         }
 
-        public Task<List<Product>> GetProductsWithCategory()
+        public async Task<List<Product>> GetProductsWithCategory()
         {
-            throw new NotImplementedException();
+            return await _context.Products.Include(x => x.Category).ToListAsync();
         }
     }
 }
