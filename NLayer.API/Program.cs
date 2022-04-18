@@ -1,3 +1,4 @@
+using Autofac.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,9 @@ builder.Services.AddDbContext<AppDbContext>(x =>
         opt.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name); //burada migrationun yapýlacaðý assembly bildirmemiz gerekli. Diyoruz ki bu migrationun yapýldýðý yer 
     });
 });
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
 
 var app = builder.Build();
 
