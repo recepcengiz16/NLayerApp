@@ -9,6 +9,7 @@ using NLayer.Service.Services;
 using System.Reflection;
 using Autofac;
 using Module = Autofac.Module; //module hem reflectiondan hem de autofacten geliyor. Bu çakışmayı önlemenin yolu autofacten gelcek dedik burada
+using NLayer.Caching;
 
 namespace NLayer.API.Modules
 {
@@ -34,7 +35,7 @@ namespace NLayer.API.Modules
                 .Where(x => x.Name.EndsWith("Service")).AsImplementedInterfaces().
                 InstancePerLifetimeScope();
 
-            //builder.RegisterType<ProductServiceWithCaching>().As<IProductService>();
+            builder.RegisterType<ProductServiceWithCaching>().As<IProductService>();
             
         }
     }
