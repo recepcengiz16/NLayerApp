@@ -32,6 +32,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
+builder.Services.AddScoped(typeof(NotFoundFilter<>));
+
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>)); //generic olunca type of ve <> þwklinde yazmamýz gerekli.
 builder.Services.AddScoped(typeof(IService<>),typeof(Service<>));

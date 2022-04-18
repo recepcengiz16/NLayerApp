@@ -42,6 +42,7 @@ namespace NLayer.API.Controllers
             return CreateActionResult(CustomResponseDTO<List<ProductDTO>>.Success(200, productsDTOs));
         }
 
+        [ServiceFilter(typeof(NotFoundFilter<Product>))]//eğer filter constructorında değer alıyorsa servicefilter ile kullanırım. Service filterın tipini de(notfoundfilterı) program cs tarafında eklememiz lazım
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
