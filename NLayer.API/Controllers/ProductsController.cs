@@ -72,7 +72,7 @@ namespace NLayer.API.Controllers
         }
 
 
-
+        [ServiceFilter(typeof(NotFoundFilter<Product>))]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Remove(int id)
         {
