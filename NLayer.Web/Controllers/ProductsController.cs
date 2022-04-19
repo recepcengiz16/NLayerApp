@@ -15,9 +15,8 @@ namespace NLayer.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await _service.GetProductsWithCategory();
-
-            return View();
+            
+            return View(await _service.GetProductsWithCategory());
         }
     }
 }
