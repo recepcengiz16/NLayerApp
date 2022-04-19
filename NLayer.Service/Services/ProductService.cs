@@ -12,25 +12,25 @@ using System.Threading.Tasks;
 
 namespace NLayer.Service.Services
 {
-    public class ProductServiceWithNoCaching : Service<Product>, IProductService
+    public class ProductService : Service<Product>, IProductService
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
 
-        public ProductServiceWithNoCaching(IGenericRepository<Product> repository, IUnitOfWork unitOfWork, IProductRepository productRepository, IMapper mapper) : base(repository, unitOfWork)
+        public ProductService(IGenericRepository<Product> repository, IUnitOfWork unitOfWork, IProductRepository productRepository, IMapper mapper) : base(repository, unitOfWork)
         {
             _mapper = mapper;
             _productRepository = productRepository;
 
         }
 
-        public async Task<CustomResponseDTO<List<ProductWithCategoryDTO>>> GetProductsWithCategory()
+        public async Task<List<ProductWithCategoryDTO>> GetProductsWithCategory()
         {
             var products = await _productRepository.GetProductsWithCategory();
 
             var productsDTO = _mapper.Map<List<ProductWithCategoryDTO>>(products);
-            return CustomResponseDTO<List<ProductWithCategoryDTO>>.Success(200,productsDTO);
+            return productsDTO;
 
         }
     }
