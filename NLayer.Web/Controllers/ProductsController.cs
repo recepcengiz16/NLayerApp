@@ -51,7 +51,7 @@ namespace NLayer.Web.Controllers
 
             var categoriesDTO = _mapper.Map<List<CategoryDTO>>(categoires.ToList());
 
-            ViewBag.Categories = new SelectList(categoriesDTO, "CategoryId", "Name");
+            ViewBag.Categories = new SelectList(categoriesDTO, "Id", "Name");
 
             return View();
         }
