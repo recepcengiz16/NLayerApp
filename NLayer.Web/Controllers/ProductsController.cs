@@ -86,5 +86,15 @@ namespace NLayer.Web.Controllers
 
             return View(product);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _service.GetByIdAsync(id);
+
+           await _service.RemoveAsync(product);
+
+            return RedirectToAction(nameof(Index));
+
+        }
     }
 }
