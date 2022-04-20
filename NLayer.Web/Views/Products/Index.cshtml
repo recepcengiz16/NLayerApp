@@ -28,6 +28,7 @@
                 <td>@item.Category.Name</td>
                 <td>@item.CreatedDate</td>
                 <td><a class="btn btn-warning" asp-action="Update" asp-controller="Products" asp-route-id="@item.Id">Update</a></td>
+                <td><a class="btn btn-danger" asp-action="Delete" asp-controller="Products" asp-route-id="@item.Id">Delete</a></td>
             </tr>
         }
     </tbody>
