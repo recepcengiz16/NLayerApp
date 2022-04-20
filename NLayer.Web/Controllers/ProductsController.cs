@@ -5,33 +5,32 @@ using NLayer.Core.DTOs;
 using NLayer.Core.Models;
 using NLayer.Core.Services;
 using NLayer.Web.Filter;
+using NLayer.Web.Services;
 
 namespace NLayer.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly IProductService _service;
-        private readonly ICategoryService _categoryService;
-        private readonly IMapper _mapper;
+        private readonly ProductApiService _productApiService;
+        private readonly CategoryApiService _categoryApiService;
 
-        public ProductsController(IProductService service, ICategoryService categoryService, IMapper mapper)
+        public ProductsController(ProductApiService productApiService, CategoryApiService categoryApiService)
         {
-            _service = service;
-            _categoryService = categoryService;
-            _mapper = mapper;
+            _productApiService = productApiService;
+            _categoryApiService = categoryApiService;
         }
 
         public async Task<IActionResult> Index()
         {
 
-            return View((await _service.GetProductsWithCategory()).Data);
+            return View(await _productApiService.GetProductsWithCategoryAsync());
         }
 
         public async Task<IActionResult> Save()
         {
-            var categoires = await _categoryService.GetAllAsync();
+            var categoriesDTO = await _categoryApiService.GetAllAsync();
 
-            var categoriesDTO = _mapper.Map<List<CategoryDTO>>(categoires.ToList());
+           
 
             ViewBag.Categories = new SelectList(categoriesDTO, "Id", "Name");
 
@@ -44,13 +43,11 @@ namespace NLayer.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                await _service.AddAsync(_mapper.Map<Product>(productDTO));
+                await _productApiService.SaveAsync(productDTO);
                 return RedirectToAction(nameof(Index));
             }
 
-            var categoires = await _categoryService.GetAllAsync();
-
-            var categoriesDTO = _mapper.Map<List<CategoryDTO>>(categoires.ToList());
+            var categoriesDTO = await _categoryApiService.GetAllAsync();
 
             ViewBag.Categories = new SelectList(categoriesDTO, "Id", "Name");
 
@@ -60,15 +57,13 @@ namespace NLayer.Web.Controllers
         [ServiceFilter(typeof(NotFoundFilter<Product>))]
         public async Task<IActionResult> Update(int id)
         {
-            var product = await _service.GetByIdAsync(id);
+            var product = await _productApiService.GetByIdAsync(id);
 
-            var categoires = await _categoryService.GetAllAsync();
-
-            var categoriesDTO = _mapper.Map<List<CategoryDTO>>(categoires.ToList());
+            var categoriesDTO = await _categoryApiService.GetAllAsync();
 
             ViewBag.Categories = new SelectList(categoriesDTO, "Id", "Name", product.CategoryId);
 
-            return View(_mapper.Map<ProductDTO>(product));
+            return View(product);
         }
 
         [HttpPost]
@@ -76,13 +71,11 @@ namespace NLayer.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.UpdateAsync(_mapper.Map<Product>(product));
+                await _productApiService.UpdateAsync(product);
                 return RedirectToAction(nameof(Index));
             }
 
-            var categoires = await _categoryService.GetAllAsync();
-
-            var categoriesDTO = _mapper.Map<List<CategoryDTO>>(categoires.ToList());
+            var categoriesDTO = await _categoryApiService.GetAllAsync();
 
             ViewBag.Categories = new SelectList(categoriesDTO, "Id", "Name", product.CategoryId);
 
@@ -91,9 +84,8 @@ namespace NLayer.Web.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var product = await _service.GetByIdAsync(id);
 
-           await _service.RemoveAsync(product);
+           await _productApiService.RemoveAsync(id);
 
             return RedirectToAction(nameof(Index));
 
