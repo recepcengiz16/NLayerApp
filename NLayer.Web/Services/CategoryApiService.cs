@@ -1,4 +1,6 @@
-﻿namespace NLayer.Web.Services
+﻿using NLayer.Core.DTOs;
+
+namespace NLayer.Web.Services
 {
     public class CategoryApiService
     {
@@ -7,6 +9,13 @@
         public CategoryApiService(HttpClient client)
         {
             _client = client;
+        }
+
+
+        public async Task<List<CategoryDTO>> GetAllAsync()
+        {
+            var response = await _client.GetFromJsonAsync<CustomResponseDTO<List<CategoryDTO>>>("categories");
+            return response.Data;
         }
     }
 }
