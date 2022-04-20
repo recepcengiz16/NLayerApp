@@ -28,7 +28,7 @@ namespace NLayer.Repository
             {
                 if (item.Entity is BaseEntity entityReferance)
                 {
-                    switch (item.Entity)
+                    switch (item.State)
                     {
                         case EntityState.Added:
                             {
@@ -57,7 +57,7 @@ namespace NLayer.Repository
             {
                 if (item.Entity is BaseEntity entityReferance)
                 {
-                    switch (item.Entity)
+                    switch (item.State)
                     {
                         case EntityState.Added:
                         {
