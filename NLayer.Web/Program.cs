@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NLayer.Repository;
 using NLayer.Service.Mapping;
 using NLayer.Service.Validations;
+using NLayer.Web.Filter;
 using NLayer.Web.Modules;
 using System.Reflection;
 
@@ -21,6 +22,9 @@ builder.Services.AddDbContext<AppDbContext>(x =>
         opt.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name); //burada migrationun yapýlacaðý assembly bildirmemiz gerekli. Diyoruz ki bu migrationun yapýldýðý yer 
     });
 });
+
+builder.Services.AddScoped(typeof(NotFoundFilter<>));
+
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
