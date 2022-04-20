@@ -37,6 +37,7 @@ namespace NLayer.Repository
                             }
                         case EntityState.Modified:
                             {
+                                Entry(entityReferance).Property(x => x.CreatedDate).IsModified = false;
                                 entityReferance.UpdateDate = DateTime.Now;
                                 break;
                             }
@@ -66,6 +67,7 @@ namespace NLayer.Repository
                         }
                        case EntityState.Modified:
                         {
+                                Entry(entityReferance).Property(x => x.CreatedDate).IsModified = false;
                                 entityReferance.UpdateDate = DateTime.Now;
                                 break;
                         }
